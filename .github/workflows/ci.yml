@@ -26,11 +26,11 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.5'
           extensions: mbstring, dom, fileinfo, pdo_pgsql, redis
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 26
           cache: 'npm'
       - name: Install Dependencies
         run: |
