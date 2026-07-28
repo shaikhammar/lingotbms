@@ -1,4 +1,4 @@
-[![LingoTBMS CI](https://github.com/shaikhammar/lingotbms.git/actions/workflows/ci.yml/badge.svg)](https://github.com/shaikhammar/lingotbms.git/actions/workflows/ci.yml)
+[![LingoTBMS CI](https://github.com/shaikhammar/lingotbms/actions/workflows/ci.yml/badge.svg)](https://github.com/shaikhammar/lingotbms/actions/workflows/ci.yml)
 # LingoTBMS
 
 LingoTBMS is a modular ERP application built for language service providers. It combines Laravel, React, PostgreSQL, and Redis to deliver a scalable platform for managing projects, clients, linguists, billing, and workflows.
