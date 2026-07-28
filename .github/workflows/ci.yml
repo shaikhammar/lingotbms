@@ -50,5 +50,5 @@ jobs:
           REDIS_HOST: 127.0.0.1
         run: |
           php artisan migrate --force
-          php artisan lint
-          php artisan test
+          composer lint
+          composer test
