@@ -70,6 +70,8 @@ LingoTBMS is a modular ERP application built for language service providers. It 
 - `database/` - migrations and seeds
 - `routes/` - API and web routes
 
-## Contributing
+## CONVENTIONS
 
-Contributions are welcome. Please open issues or pull requests for bug fixes, enhancements, and new modules.
+- route naming pattern for future modules (clients.index, clients.store…)
+- page components live per module
+- nav registry lives in nav component 

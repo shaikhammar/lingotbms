@@ -1,0 +1,1 @@
+- [ ] whether public registration stays open once deployed
