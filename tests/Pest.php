@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Tenant;
+use App\Models\User;
+use App\Support\Contexts\TenantContext;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -47,4 +50,40 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+/**
+ * Create a tenant and a user, log them in, and return both instances.
+ *
+ * @return array{tenant: Tenant, user: User}
+ */
+function actingAsTenant(): array
+{
+    // Fetching the tenant associated with the user
+    /** @var Tenant $tenant */
+    $tenant = Tenant::factory()->create();
+
+    // Create the user belonging to that tenant
+    /** @var User $user */
+    $user = User::factory()->create([
+        'tenant_id' => $tenant->id,
+    ]);
+
+    // Authenticate the user
+    switchUser($user);
+
+    // Return both objects wrapped in a structured array
+    return [
+        'tenant' => $tenant,
+        'user' => $user,
+    ];
+}
+
+/**
+ * Switch the authenticated user and update the tenant context.
+ */
+function switchUser(User $user): void
+{
+    test()->actingAs($user);
+    TenantContext::set($user->tenant_id, true);
 }
