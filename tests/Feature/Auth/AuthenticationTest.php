@@ -8,6 +8,7 @@ test('login screen can be rendered', function () {
     $response = $this->get(route('login'));
 
     $response->assertOk();
+    $response->assertSee('<meta name="csrf-token" content="'.csrf_token().'"', false);
 });
 
 test('users can authenticate using the login screen', function () {
@@ -20,6 +21,35 @@ test('users can authenticate using the login screen', function () {
 
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
+});
+
+test('authenticated users can access the notes page after a session-based login', function () {
+    $user = User::factory()->create();
+
+    $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $response = $this->get(route('notes.index'));
+
+    $response->assertOk();
+});
+
+test('users are redirected to the originally requested page after login', function () {
+    $user = User::factory()->create();
+
+    $response = $this->get(route('notes.index'));
+
+    $response->assertRedirect(route('login'));
+    $response->assertSessionHas('url.intended', route('notes.index', absolute: true));
+
+    $response = $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $response->assertRedirect(route('notes.index', absolute: false));
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {
