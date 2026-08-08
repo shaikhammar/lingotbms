@@ -1,9 +1,9 @@
 <?php
 
 use App\Exceptions\MissingTenantContextException;
-use App\Models\Note;
 use App\Models\Scopes\TenantScope;
 use App\Models\Tenant;
+use App\Modules\Notes\Models\Note;
 use App\Support\Contexts\TenantContext;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
