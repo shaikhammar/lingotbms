@@ -2,9 +2,9 @@
 
 namespace App\Concerns\Foundation;
 
-use App\Exceptions\MissingTenantContextException;
 use App\Models\Scopes\TenantScope;
 use App\Models\Tenant;
+use App\Support\Contexts\TenantContext;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToTenant
@@ -15,16 +15,8 @@ trait BelongsToTenant
 
         static::creating(function ($model) {
 
-            if ($model->tenant_id) {
-                return; // Skip setting tenant_id if the model already has a tenant_id
-            } elseif (auth()->check()) {
-                $model->tenant_id = auth()->user()->tenant_id;
-            } else {
-                throw new MissingTenantContextException;
-            }
-
+            $model->tenant_id ??= TenantContext::getTenantId();
         });
-
     }
 
     /**

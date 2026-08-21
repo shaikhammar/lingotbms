@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { JSX } from 'react/jsx-runtime';
+import type { JSX } from 'react/jsx-runtime';
 import  notes  from '@/routes/notes';
 
 export default function Notes( { notes }: { notes: Array<{ id: number; body: string }> } ): JSX.Element {

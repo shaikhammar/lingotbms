@@ -13,17 +13,26 @@ import type { NavItem } from '@/types';
 const sidebarNavItems: NavItem[] = [
     {
         title: 'Profile',
+        isAvailable: true,
         href: edit(),
         icon: null,
     },
     {
         title: 'Security',
+        isAvailable: true,
         href: editSecurity(),
         icon: null,
     },
     {
         title: 'Appearance',
+        isAvailable: true,
         href: editAppearance(),
+        icon: null,
+    },
+    {
+        title: 'Business',
+        isAvailable: true,
+        href: '/settings/business',
         icon: null,
     },
 ];

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Tenant;
+use App\Models\TenantSetting;
 use App\Models\User;
 use App\Support\Contexts\TenantContext;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -47,17 +48,12 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
-{
-    // ..
-}
-
 /**
  * Create a tenant and a user, log them in, and return both instances.
  *
  * @return array{tenant: Tenant, user: User}
  */
-function actingAsTenant(): array
+function actingAsTenant(?string $businessName = null): array
 {
     // Fetching the tenant associated with the user
     /** @var Tenant $tenant */
@@ -69,6 +65,11 @@ function actingAsTenant(): array
         'tenant_id' => $tenant->id,
     ]);
 
+    if ($businessName !== null) {
+        runAsTenant($tenant, fn () => TenantSetting::firstOrFail()->update([
+            'business_name' => $businessName,
+        ]));
+    }
     // Authenticate the user
     switchUser($user);
 
@@ -85,5 +86,50 @@ function actingAsTenant(): array
 function switchUser(User $user): void
 {
     test()->actingAs($user);
-    TenantContext::set($user->tenant_id, true);
+    TenantContext::applyForRequest($user->tenant_id);
+}
+
+/**
+ * Run a callback under an explicit tenant context, with NO authenticated user.
+ * The counterpart to actingAsTenant(): that one simulates a logged-in request,
+ * this one simulates a seeder, a queued job, or registration.
+ *
+ * @template T
+ *
+ * @param  callable(): T  $callback
+ * @return T
+ */
+function runAsTenant(Tenant $tenant, callable $callback): mixed
+{
+    return TenantContext::runFor($tenant->id, $callback);
+}
+
+/**
+ * Read the tenant id Postgres currently believes it is scoped to.
+ * Returns null if never set, '' if set to empty (see the runFor fallback).
+ */
+function currentSettingTenantId(): ?string
+{
+    return DB::selectOne(
+        "SELECT current_setting('app.current_tenant_id', true) AS v"
+    )->v;
+}
+
+/**
+ * Returns a valid payload for tenant settings, optionally overridden by the provided array.
+ *
+ * @param  array<string, mixed>  $overrides
+ * @return array<string, mixed>
+ */
+function validSettingsPayload(array $overrides = []): array
+{
+    return array_merge([
+        'business_name' => 'Alpha Translations',
+        'address' => '12 Example Street',
+        'base_currency' => 'EUR',
+        'invoice_prefix' => 'ALP',
+        'invoice_next_number' => 42,
+        'default_payment_terms_days' => 14,
+        'timezone' => 'Europe/Berlin',
+    ], $overrides);
 }
