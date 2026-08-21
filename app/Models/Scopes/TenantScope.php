@@ -2,7 +2,7 @@
 
 namespace App\Models\Scopes;
 
-use App\Exceptions\MissingTenantContextException;
+use App\Support\Contexts\TenantContext;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
@@ -19,10 +19,6 @@ class TenantScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (auth()->check()) {
-            $builder->where($model->qualifyColumn('tenant_id'), auth()->user()->tenant_id);
-        } else {
-            throw new MissingTenantContextException;
-        }
+        $builder->where($model->qualifyColumn('tenant_id'), TenantContext::getTenantId());
     }
 }

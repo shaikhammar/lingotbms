@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\TenantSettingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -42,6 +44,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'tenantSettings' => fn () => Auth::check() ? app(TenantSettingService::class)->shellPayload() : null,
         ];
     }
 }

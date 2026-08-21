@@ -20,7 +20,7 @@ class SetTenantContext
             return $next($request);
         }
 
-        TenantContext::set(auth()->user()->tenant_id);
+        TenantContext::applyForRequest(auth()->user()->tenant_id);
 
         return $next($request);
     }
