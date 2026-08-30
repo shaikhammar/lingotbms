@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Foundation\Models\User;
 use Inertia\Testing\AssertableInertia;
 
 test('guests are redirected to the login page', function () {

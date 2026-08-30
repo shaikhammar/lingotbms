@@ -2,7 +2,7 @@
 
 namespace App\Modules\Notes\Database\Factories;
 
-use App\Models\Tenant;
+use App\Foundation\Models\Tenant;
 use App\Modules\Notes\Models\Note;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

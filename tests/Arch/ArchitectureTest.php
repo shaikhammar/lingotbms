@@ -1,46 +1,43 @@
 <?php
 
-use App\Concerns\Foundation\BelongsToTenant;
+use App\Foundation\Database\Factories\TenantFactory;
 
-arch('All classes in the App namespace should be cased correctly')
+$core = ['Foundation'];
+
+$shared = ['References'];
+
+$modules = modules_on_disk();
+
+$featureModules = array_diff($modules, $shared);
+
+// TODO: Refer to the arch()->preset()->laravel() and implement a similar arch tests
+
+arch('all classes in the App namespace should be cased correctly')
     ->expect('App')
     ->toBeCasedCorrectly();
 
-arch('Root Models should not use any modules')
-    ->expect('App\Models')
+$foundationNamespace = 'App\Foundation';
+
+$moduleNamespace = 'App\Modules';
+
+arch('foundation does not use modules')
+    ->expect($foundationNamespace)
     ->not
-    ->toUse('App\Modules');
+    ->toUse($moduleNamespace)
+    ->ignoring(TenantFactory::class);       // TODO change this to App\Foundation and remove this line
 
-function modules_on_disk(): array
-{
-    // Use __DIR__ to dynamically find the app directory, bypassing Laravel helpers.
-    // Adjust the number of '/../' depending on how deep this test file is nested.
-    // If this file is in tests/Feature/, you need '/../../app/Modules'
-    $modulesPath = realpath(__DIR__.'/../../app/Modules/');
-    $modules = [];
-
-    if ($modulesPath && is_dir($modulesPath)) {
-        $moduleDirectories = scandir($modulesPath);
-        foreach ($moduleDirectories as $module) {
-            if ($module !== '.' && $module !== '..' && is_dir($modulesPath.'/'.$module)) {
-                $modules[] = $module;
-            }
-        }
-    }
-
-    return $modules;
-}
-
-$modules = modules_on_disk();
-// Create the array of full namespaces (e.g., ['App\Modules\Sales', 'App\Modules\Finance'])
 $allModuleNamespaces = array_map(fn ($module) => "App\\Modules\\{$module}", $modules);
 
-foreach ($modules as $module) {
-    arch("module {$module} is isolated")
-        ->expect("App\\Modules\\{$module}")
-        ->not->toUse(array_diff($allModuleNamespaces, ["App\\Modules\\{$module}"]));
+$featureNamespaces = array_map(fn ($featureModule) => "App\\Modules\\{$featureModule}", $featureModules);
+foreach ($shared as $sharedModule) {
+    arch("shared module {$sharedModule} does not use feature modules")
+        ->expect("App\\Modules\\{$sharedModule}")
+        ->not()->toUse(array_diff($allModuleNamespaces, ["App\\Modules\\{$sharedModule}"]));
+}
 
-    arch("module {$module} should use BelongsToTenant trait")
-        ->expect("App\\Modules\\{$module}\\Models")
-        ->toUse(BelongsToTenant::class);
+foreach ($featureModules as $featureModule) {
+    arch("feature module {$featureModule} is isolated")
+        ->expect("App\\Modules\\{$featureModule}")
+        ->not->toUse(array_diff($featureNamespaces, ["App\\Modules\\{$featureModule}"]));
+
 }

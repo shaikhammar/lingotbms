@@ -2,9 +2,9 @@
 
 namespace App\Modules\Notes\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Providers\BaseModuleServiceProvider;
 
-class NotesServiceProvider extends ServiceProvider
+class NotesServiceProvider extends BaseModuleServiceProvider
 {
     /**
      * Register services.
@@ -19,8 +19,6 @@ class NotesServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadRoutesFrom(__DIR__.'/../Routes/notes.php');
-        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
-        $this->loadFactoriesFrom(__DIR__.'/../Database/Factories');
+        parent::boot();
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-use App\Exceptions\MissingTenantContextException;
-use App\Models\Scopes\TenantScope;
-use App\Models\Tenant;
-use App\Models\User;
+use App\Foundation\Exceptions\MissingTenantContextException;
+use App\Foundation\Models\Tenant;
+use App\Foundation\Models\User;
+use App\Foundation\Scopes\TenantScope;
+use App\Foundation\Support\TenantContext;
 use App\Modules\Notes\Models\Note;
-use App\Support\Contexts\TenantContext;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 

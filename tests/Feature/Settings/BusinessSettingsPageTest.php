@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\TenantSetting;
+use App\Modules\Settings\Models\TenantSetting;
 
 test('guest is redirected from the edit page', function () {
     $this->get(route('settings.business.edit'))
@@ -9,11 +9,11 @@ test('guest is redirected from the edit page', function () {
 
 test('authenticated user gets the right component, props and current tenant\'s values', function () {
     $tenantA = actingAsTenant()['tenant'];
-    runAsTenant($tenantA, fn () => TenantSetting::firstOrFail()->update([
+    runAsTenant($tenantA, fn () => TenantSetting::query()->firstOrFail()->update([
         'business_name' => 'Tenant A Business',
     ]));
     $tenantB = actingAsTenant()['tenant'];
-    runAsTenant($tenantB, fn () => TenantSetting::firstOrFail()->update([
+    runAsTenant($tenantB, fn () => TenantSetting::query()->firstOrFail()->update([
         'business_name' => 'Tenant B Business',
     ]));
 

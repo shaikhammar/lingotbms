@@ -1,5 +1,5 @@
 import { Form, Head, usePage } from '@inertiajs/react';
-import TenantSettingController from '@/actions/App/Http/Controllers/Settings/TenantSettingController';
+import TenantSettingController from '@/actions/App/Modules/Settings/Http/Controllers/TenantSettingController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';

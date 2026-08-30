@@ -1,0 +1,12 @@
+[
+    {"code":"en", "name":"English"},
+    {"code":"en-US", "name":"English (United States)"},
+    {"code":"en-UK", "name":"English (United Kingdom)"},
+    {"code":"en-IN", "name":"English (India)"},
+    {"code":"ur", "name":"Urdu"},
+    {"code":"ur-IN", "name":"Urdu (India)"},
+    {"code":"ur-PK", "name":"Urdu (Pakistan)"},
+    {"code":"hi", "name":"Hindi"},
+    {"code":"mr", "name":"Marathi"},
+    {"code":"gu", "name":"Gujarati"}
+]

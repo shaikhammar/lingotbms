@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Tenant;
-use App\Models\TenantSetting;
-use App\Support\Enum\CurrencyEnum;
+use App\Foundation\Models\Tenant;
+use App\Modules\References\Enum\CurrencyEnum;
+use App\Modules\Settings\Models\TenantSetting;
 
 test('valid update persists every field', function () {
     $tenant = actingAsTenant()['tenant'];
@@ -52,14 +52,16 @@ test('normalisation applies', function () {
 
 test('validation failures leave the row unchanged', function () {
     $tenant = actingAsTenant()['tenant'];
-    $before = TenantSetting::firstOrFail()->toArray();
+    $before = TenantSetting::query()->firstOrFail()->toArray();
 
     $this->put(route('settings.business.update'), validSettingsPayload([
         'business_name' => 'Should Not Be Saved',
         'base_currency' => 'XYZ', // invalid currency
-    ]))->assertSessionHasErrors('base_currency');
+    ]))
+        ->assertSessionHasErrors('base_currency');
+    // ->assertSessionHasNoErrors();
 
-    expect(TenantSetting::firstOrFail()->toArray())->toBe($before);
+    expect(TenantSetting::query()->firstOrFail()->toArray())->toBe($before);
 });
 
 test('non-input columns cannot be mass-assigned', function () {
@@ -84,7 +86,7 @@ test('non-input columns cannot be mass-assigned', function () {
 
 test('update touches only the acting tenant\'s row', function () {
     $tenantA = actingAsTenant()['tenant'];
-    runAsTenant($tenantA, fn () => TenantSetting::firstOrFail()->update(['business_name' => 'Alpha']));
+    runAsTenant($tenantA, fn () => TenantSetting::query()->firstOrFail()->update(['business_name' => 'Alpha']));
 
     actingAsTenant();   // now B
     $this->put(route('settings.business.update'), validSettingsPayload([
