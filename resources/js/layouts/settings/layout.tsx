@@ -35,6 +35,12 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/business',
         icon: null,
     },
+    {
+        title: 'Services',
+        isAvailable: true,
+        href: '/settings/services',
+        icon: null,
+    },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {

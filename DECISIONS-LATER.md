@@ -1,1 +1,6 @@
-- [ ] whether public registration stays open once deployed
+- [ ] Whether public registration stays open once deployed
+- [ ] Serving and caching reference data is deferred to chunk 7 — payload shape, page props vs shared props, whether to cache, and the key-scoping rule
+- [ ] How one feature module reads another — deliberately undecided, forced in ch 12 and again in ch 14
+- [ ] The language seeder must run in the ch 17 deploy pipeline
+- [ ] RTL flag on languages, if ch 13's PDFs need it
+- [ ] services.code is inert in v1 and must not silently become load-bearing

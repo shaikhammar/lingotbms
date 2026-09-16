@@ -4,7 +4,6 @@ namespace App\Actions\Fortify;
 
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
-use App\Foundation\Events\TenantCreated;
 use App\Foundation\Models\Tenant;
 use App\Foundation\Models\User;
 use App\Foundation\Support\TenantContext;
@@ -32,8 +31,6 @@ class CreateNewUser implements CreatesNewUsers
             $tenant = Tenant::create();
 
             return TenantContext::runFor($tenant->id, function () use ($tenant, $input) {
-
-                TenantCreated::dispatch($tenant);
 
                 return User::create([
                     'name' => $input['name'],

@@ -1,0 +1,6 @@
+- [ ] The three tiers, and the membership test (route/screen/table → module; boot-critical → Foundation)
+- [ ] The four rules, and the note that only three are asserted — rule 2 is enforced by omission
+- [ ] Two written exceptions: no tenant_id on global reference tables; natural key on static tables
+- [ ] Every unique index starts with tenant_id
+- [ ] The seeding taxonomy: reference data / per-tenant provisioning / dev fixtures
+- [ ] Blind spots your arch test cannot see: string container keys, routes.php, Inertia page paths

@@ -3,8 +3,6 @@
 namespace App\Foundation\Database\Factories;
 
 use App\Foundation\Models\Tenant;
-use App\Foundation\Support\TenantContext;
-use App\Modules\Settings\Models\TenantSetting;
 use Illuminate\Database\Eloquent\Factories\Attributes\UseModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,17 +22,5 @@ class TenantFactory extends Factory
         return [
             //
         ];
-    }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (Tenant $tenant) {
-
-            TenantContext::runFor($tenant->id, function () {
-                TenantSetting::create([
-                    'business_name' => fake()->company(),
-                ]);
-            });
-        });
     }
 }

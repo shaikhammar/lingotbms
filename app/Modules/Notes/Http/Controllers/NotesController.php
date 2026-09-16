@@ -16,7 +16,7 @@ class NotesController extends Controller
 {
     public function index(): Response
     {
-        return Inertia::render('Notes/index', [
+        return Inertia::render('notes/index', [
             'notes' => Note::all(),
         ]);
     }

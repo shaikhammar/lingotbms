@@ -3,6 +3,8 @@
 namespace App\Foundation\Models;
 
 use App\Foundation\Database\Factories\TenantFactory;
+use App\Foundation\Events\TenantCreated;
+use App\Foundation\Support\TenantContext;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -38,6 +40,13 @@ class Tenant extends Model
     protected static function newFactory()
     {
         return TenantFactory::new();
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function (Tenant $tenant) {
+            TenantContext::runFor($tenant->id, fn () => TenantCreated::dispatch($tenant));
+        });
     }
 
     /**
