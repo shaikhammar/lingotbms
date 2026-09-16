@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
-use App\Http\Controllers\Settings\TenantSettingController;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +25,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::inertia('settings/appearance', 'settings/appearance')->name('appearance.edit');
 
-    Route::get('settings/business', [TenantSettingController::class, 'edit'])->name('settings.business.edit');
-
-    Route::put('settings/business', [TenantSettingController::class, 'update'])->name('settings.business.update');
 });

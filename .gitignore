@@ -28,3 +28,5 @@ yarn-error.log
 /.vscode
 /.zed
 .env.before_lerd
+_ide_helper_models.php
+.phpstorm.meta.php

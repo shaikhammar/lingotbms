@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Tenant;
-use App\Models\TenantSetting;
-use App\Models\User;
-use App\Support\Contexts\TenantContext;
+use App\Foundation\Models\Tenant;
+use App\Foundation\Models\User;
+use App\Foundation\Support\TenantContext;
+use App\Modules\Settings\Models\TenantSetting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -66,7 +66,7 @@ function actingAsTenant(?string $businessName = null): array
     ]);
 
     if ($businessName !== null) {
-        runAsTenant($tenant, fn () => TenantSetting::firstOrFail()->update([
+        runAsTenant($tenant, fn () => TenantSetting::query()->firstOrFail()->update([
             'business_name' => $businessName,
         ]));
     }
@@ -132,4 +132,27 @@ function validSettingsPayload(array $overrides = []): array
         'default_payment_terms_days' => 14,
         'timezone' => 'Europe/Berlin',
     ], $overrides);
+}
+
+/**
+ * Summary of modules_on_disk
+ */
+function modules_on_disk(): array
+{
+    // Use __DIR__ to dynamically find the app directory, bypassing Laravel helpers.
+    // Adjust the number of '/../' depending on how deep this test file is nested.
+    // If this file is in tests/Feature/, you need '/../../app/Modules'
+    $modulesPath = realpath(__DIR__.'/../app/Modules/');
+    $modules = [];
+
+    if ($modulesPath && is_dir($modulesPath)) {
+        $moduleDirectories = scandir($modulesPath);
+        foreach ($moduleDirectories as $module) {
+            if ($module !== '.' && $module !== '..' && is_dir($modulesPath.'/'.$module)) {
+                $modules[] = $module;
+            }
+        }
+    }
+
+    return $modules;
 }

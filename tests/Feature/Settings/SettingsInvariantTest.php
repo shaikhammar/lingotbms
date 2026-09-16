@@ -1,10 +1,10 @@
 <?php
 
 use App\Actions\Fortify\CreateNewUser;
-use App\Models\Tenant;
-use App\Models\TenantSetting;
-use App\Models\User;
-use App\Support\Enum\CurrencyEnum;
+use App\Foundation\Models\Tenant;
+use App\Foundation\Models\User;
+use App\Modules\References\Enum\CurrencyEnum;
+use App\Modules\Settings\Models\TenantSetting;
 use Illuminate\Database\QueryException;
 
 test('registration creates a tenant, its settings, and the user', function () {
@@ -30,7 +30,7 @@ test('registration creates a tenant, its settings, and the user', function () {
         $settings = TenantSetting::firstOrFail();
 
         expect($settings->tenant_id)->toBe($tenant->id)
-            ->and($settings->business_name)->toBe('Ammar Translations')
+            ->and($settings->business_name)->toBeNull()
             ->and($settings->base_currency)->toBe(CurrencyEnum::USD)
             ->and($settings->invoice_prefix)->toBe('INV')
             ->and($settings->invoice_next_number)->toBe(1)

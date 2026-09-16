@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\TenantSettingService;
+use App\Modules\Settings\Services\TenantSettingService;
 use Illuminate\Http\UploadedFile;
 
 test('second call performs no query', function () {

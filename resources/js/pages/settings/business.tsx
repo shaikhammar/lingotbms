@@ -1,15 +1,15 @@
-import { Form, Head, usePage } from '@inertiajs/react';
-import TenantSettingController from '@/actions/App/Http/Controllers/Settings/TenantSettingController';
+import { Form, Head } from '@inertiajs/react';
+import { useEffect, useRef, useState } from 'react';
+import TenantSettingController from '@/actions/App/Modules/Settings/Http/Controllers/TenantSettingController';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { TenantSetting } from '@/types/tenantsetting';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
-import { useEffect, useRef, useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
+import type { TenantSetting } from '@/types/tenantsetting';
 
 type PageProps = {
     tenantSetting: TenantSetting;
@@ -39,6 +39,7 @@ export default function Business({ tenantSetting, currencies, timezones }: PageP
             if (previewUrl) {
                 URL.revokeObjectURL(previewUrl);
             }
+
             setPreviewUrl(URL.createObjectURL(file));
             setIsRemoving(false); // Uncheck removal if they select a new file
         } else {
@@ -49,6 +50,7 @@ export default function Business({ tenantSetting, currencies, timezones }: PageP
     const handleRemoveLogo = () => {
         setIsRemoving(true);
         setPreviewUrl(null);
+
         if (fileInputRef.current) {
             fileInputRef.current.value = ''; // Reset the file input
         }

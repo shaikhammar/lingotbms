@@ -1,6 +1,6 @@
 <?php
 
-use App\Support\Database\TenantIsolationPolicy;
+use App\Foundation\Database\TenantIsolationPolicy;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration

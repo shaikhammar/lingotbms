@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Tenant;
-use App\Models\TenantSetting;
+use App\Foundation\Models\Tenant;
+use App\Modules\Settings\Models\TenantSetting;
 use Illuminate\Http\UploadedFile;
 
 beforeEach(fn () => Storage::fake('public'));

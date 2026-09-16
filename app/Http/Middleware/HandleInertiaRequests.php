@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\TenantSettingService;
+use App\Modules\Settings\Services\TenantSettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
